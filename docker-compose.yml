@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  landers:
+    build:
+      context: ./
+      cache_from:
+        - node:12.14-alpine3.10
+    restart: always
+    environment:
+      - SERVER_URL
+      - HEADLESS
+      - USERNAME
+      - PASSWORD
+      - GMAIL_ACCT
+      - GMAIL_PASS
+      - NOTIFY_EMAIL
+      - FIRSTNAME
+      - INTERVAL_SECS     
