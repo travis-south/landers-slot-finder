@@ -7,6 +7,8 @@ services:
       cache_from:
         - node:12.14-alpine3.10
     restart: always
+    # volumes:
+    #   - ./tmp:/www/tmp
     environment:
       - SERVER_URL
       - HEADLESS
@@ -16,4 +18,4 @@ services:
       - GMAIL_PASS
       - NOTIFY_EMAIL
       - FIRSTNAME
-      - INTERVAL_SECS     
+      - INTERVAL_SECS

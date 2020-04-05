@@ -3,6 +3,7 @@ export default describe('Landers', () => {
         await page.goto(process.env.SERVER_URL);
         await page.setViewport({ width: 1920, height: 1080 });
         page.setDefaultTimeout(5000);
+        page.setCacheEnabled();
     });
 
     // it('should display the login button', async () => {
