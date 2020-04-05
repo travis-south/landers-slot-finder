@@ -5,7 +5,7 @@ dotenv.config();
 const config = {
     launch: {
         headless: process.env.HEADLESS !== 'false',
-        dumpio: false,
+        dumpio: true,
         devtools: false,
         timeout: 120 * 1000, // 120 secs
         // we are just testing our own local site, so sandbox is not necessary

@@ -25,17 +25,17 @@ export default describe('Landers', () => {
         await page.waitForSelector('div.appComponent.ld-page--checkout-cart > div.headwrap > div > div.ld-header > div > div.ld-header__menu > div.ld-header__menu--item.ld-header__menu--customer > div.ld-header__menu--name');
         await expect(page).toMatch(process.env.FIRSTNAME);
         
-        // // go to cart
+        // go to cart
         await expect(page).toClick('div.ld-header__menu--item.ld-header__menu--cart');
         await page.waitForSelector('div.appComponent.ld-page--checkout-cart > div.bodyComponent > div > div.ld-body-middle-content > div > div.ld-wrapper-order-summary > div.sc-cSHVUG.kQwYYC.ld-rnfooter.fixed.padder.white.flex1.OrderSummaryFooter.ld-animated-fade-in > div.sc-gqjmRU.eESKSx.ld-rnview.bgLightGrey.orderSummary.ldOrderSummary > div.sc-gqjmRU.eESKSx.ld-rnview.rowFlexStart.heading > span');
         await expect(page).toMatch('Order Summary');
         
-        // // checkout
+        // checkout
         await expect(page).toClick('button.checkoutBtn');
         await page.waitForSelector('div.appComponent.ld-page--checkout-delivery-address > div.bodyComponent > div > div.ld-body-middle-content > div > div.ld-wrapper-order-summary > div.sc-jzJRlG.bWAyrP.ld-rncontent.flex3.ldDeliveryAddress.ld-animated-fade-in > span');
         await expect(page).toMatch('Delivery Address');
         
-        // // check delivery slot
+        // check delivery slot
         await expect(page).toClick('div.appComponent.ld-page--checkout-delivery-address > div.bodyComponent > div > div.ld-body-middle-content > div > div.ld-wrapper-order-summary > div.sc-jzJRlG.bWAyrP.ld-rncontent.flex3.ldDeliveryAddress.ld-animated-fade-in > div:nth-child(3) > div > div:nth-child(2) > button');
         await page.waitForSelector('div.appComponent.ld-page--checkout-delivery-timeslots > div.bodyComponent > div > div.ld-body-middle-content > div > div.sc-jzJRlG.bWAyrP.ld-rncontent.deliverySlotsWrapper.padder.ld-delivery-timeslots.ld-animated-fade-in > span');
         await expect(page).toMatch('Reserve Your Delivery Slot');
