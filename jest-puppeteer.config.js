@@ -6,10 +6,13 @@ const config = {
     launch: {
         headless: process.env.HEADLESS !== 'false',
         dumpio: false,
-        devtools: true,
+        devtools: false,
         timeout: 120 * 1000, // 120 secs
         // we are just testing our own local site, so sandbox is not necessary
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        slowMo: 250,
+        pipe: false,
+        ignoreHTTPSErrors: true,
     },
 };
 

@@ -2,7 +2,7 @@ export default describe('Landers', () => {
     beforeAll(async () => {
         await page.goto(process.env.SERVER_URL);
         await page.setViewport({ width: 1920, height: 1080 });
-        page.setDefaultTimeout(20000);
+        page.setDefaultTimeout(5000);
     });
 
     it('should display the login button', async () => {

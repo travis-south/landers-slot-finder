@@ -1,4 +1,4 @@
-FROM node:12.14-alpine3.10
+FROM node:12.16-alpine3.10
 RUN apk add --no-cache \
     g++ \
     make \
