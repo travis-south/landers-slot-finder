@@ -5,10 +5,10 @@ export default describe('Landers', () => {
         page.setDefaultTimeout(5000);
     });
 
-    it('should display the login button', async () => {
-        await page.waitForSelector('button.ld-header__menu--item');
-        await expect(page).toMatchElement('button.ld-header__menu--item');
-    });
+    // it('should display the login button', async () => {
+    //     await page.waitForSelector('button.ld-header__menu--item');
+    //     await expect(page).toMatchElement('button.ld-header__menu--item');
+    // });
     
     it('should login and check delivery slot', async () => {
         await page.waitForSelector('div.appComponent > div.headwrap > div > div.ld-header > div > div.ld-header__menu > button:nth-child(6)');

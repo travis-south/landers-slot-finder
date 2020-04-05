@@ -13,6 +13,7 @@ const config = {
         slowMo: 250,
         pipe: false,
         ignoreHTTPSErrors: true,
+        userDataDir: './tmp',
     },
 };
 
