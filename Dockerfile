@@ -12,3 +12,5 @@ WORKDIR /www
 ADD ./ /www
 RUN yarn install
 CMD ["yarn", "run", "test"]
+
+# check http://www.smartjava.org/content/using-puppeteer-in-docker-copy-2/
