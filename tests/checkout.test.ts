@@ -14,13 +14,13 @@ export default describe('Landers', () => {
         await expect(page).toMatchElement('input[name="email"]');
         await page.waitForSelector('form.loginComponent');
         await expect(page).toFillForm('form.loginComponent', {
-            email: process.env.USERNAME,
-            '': process.env.PASSWORD,
+            email: process.env.LANDERS_USERNAME,
+            '': process.env.LANDERS_PASSWORD,
         });
         await page.waitForSelector('form.loginComponent .loginbtn');
         await expect(page).toClick('form.loginComponent .loginbtn');
         await page.waitForSelector('div.appComponent.ld-page--checkout-cart > div.headwrap > div > div.ld-header > div > div.ld-header__menu > div.ld-header__menu--item.ld-header__menu--customer > div.ld-header__menu--name');
-        await expect(page).toMatch(process.env.FIRSTNAME);
+        await expect(page).toMatch(process.env.LANDERS_FIRSTNAME);
         
         // go to cart
         await expect(page).toClick('div.ld-header__menu--item.ld-header__menu--cart');
