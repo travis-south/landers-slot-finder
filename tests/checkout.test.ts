@@ -2,6 +2,7 @@ export default describe('Landers', () => {
     beforeAll(async () => {
         await page.goto(process.env.SERVER_URL);
         await page.setViewport({ width: 1920, height: 1080 });
+        await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36');
         page.setDefaultTimeout(5000);
         page.setCacheEnabled();
     });
