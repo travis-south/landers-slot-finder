@@ -5,11 +5,6 @@ export default describe('Landers', () => {
         page.setDefaultTimeout(5000);
         page.setCacheEnabled();
     });
-
-    // it('should display the login button', async () => {
-    //     await page.waitForSelector('button.ld-header__menu--item');
-    //     await expect(page).toMatchElement('button.ld-header__menu--item');
-    // });
     
     it('should login and check delivery slot', async () => {
         await page.waitForSelector('div.appComponent > div.headwrap > div > div.ld-header > div > div.ld-header__menu > button:nth-child(6)');
@@ -42,28 +37,33 @@ export default describe('Landers', () => {
         await expect(page).toMatch('Reserve Your Delivery Slot');
         await page.waitForSelector('div.DeliveryTimeSlotItem.isToday');
         const element = await page.$$('div.DeliveryTimeSlotItem__body-slot-item.isDisabled');
+
+        const isSlotAvailable = element.length < 8 ? true : false;
         
-        const slotSubject = element.length < 8 ? 'Slot(s) Available' : 'No Slot Available';
-        const slotBody = element.length < 8 ? 'There are slot(s) available! Hurry!' : 'No slot available, just go to sleep.';
+        if (isSlotAvailable) {
+            const slotSubject = 'Slot(s) Available';
+            const slotBody = 'There are slot(s) available! Hurry!';
 
-        const options = {
-            user: process.env.GMAIL_ACCT,
-            pass: process.env.GMAIL_PASS,
-            to:   process.env.NOTIFY_EMAIL,
-            subject: `${slotSubject} - Landers delivery slot`,
-            text: slotBody,
+            const options = {
+                user: process.env.GMAIL_ACCT,
+                pass: process.env.GMAIL_PASS,
+                to:   process.env.NOTIFY_EMAIL.split(','),
+                subject: `${slotSubject} - Landers delivery slot`,
+                text: slotBody,
+            }
+    
+            const send = require('gmail-send')(options);
+            
+            try {
+                await send();
+            } catch(error) {
+                console.error('ERROR', error);
+            }
         }
-
-        const send = require('gmail-send')(options);
         
-        try {
-            await send();
-        } catch(error) {
-            console.error('ERROR', error);
-        }
-
         await new Promise(r => setTimeout(r, (1000 * Number(process.env.INTERVAL_SECS))));
 
     });
 
 });
+
