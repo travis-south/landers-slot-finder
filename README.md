@@ -21,5 +21,5 @@ This app can help you monitor and notify you via email if there's already availa
     1. `NOTIFY_EMAIL` - The email account that will receive the actual email notifications
     1. `FIRSTNAME` - Firstname you used when you signup for your Landers account. You can see it at the upper right corner after logging in to your Landers account. Uppercase.
 1. Run `docker-compose up --build -d`.
-1. Voila! This will run every 5 mins (can be changed in `.env`, `INTERVAL_SECS`) and will notify you via `NOTIFY_EMAIL`.
+1. Voila! This will run every 1 min (can be changed in `.env`, `INTERVAL_SECS`) and will notify you via `NOTIFY_EMAIL`.
 1. If you are done, run `docker-compose down -v` to stop the app.
