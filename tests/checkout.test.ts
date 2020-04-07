@@ -1,3 +1,6 @@
+
+const DATA_FILE = './data.json';
+
 export default describe('Landers', () => {
     beforeAll(async () => {
         await page.goto(process.env.SERVER_URL);
@@ -48,31 +51,52 @@ export default describe('Landers', () => {
         const element = await page.$$('div.DeliveryTimeSlotItem__body-slot-item.isDisabled');
 
         const isSlotAvailable = element.length < 8 ? true : false;
-        
-        if (isSlotAvailable) {
-            const slotSubject = 'Slot(s) Available';
-            const slotBody = 'There are slot(s) available! Hurry!';
+        await sendNotification(isSlotAvailable, checkStatus(isSlotAvailable));
 
-            const options = {
-                user: process.env.GMAIL_ACCT,
-                pass: process.env.GMAIL_PASS,
-                to:   process.env.NOTIFY_EMAIL.split(','),
-                subject: `${slotSubject} - Landers delivery slot`,
-                text: slotBody,
-            }
-    
-            const send = require('gmail-send')(options);
-            
-            try {
-                await send();
-            } catch(error) {
-                console.error('ERROR', error);
-            }
-        }
-        
         await new Promise(r => setTimeout(r, (1000 * Number(process.env.INTERVAL_SECS))));
 
     });
 
 });
 
+function checkStatus(isSlotAvailable: boolean): boolean {
+    const fs = require('fs');
+    let data = { isSlotAvailable: null };
+    
+    if (fs.existsSync(DATA_FILE)) {
+        const jsonString = fs.readFileSync(DATA_FILE);
+        data = JSON.parse(jsonString);
+    }
+
+    if (data.isSlotAvailable !== isSlotAvailable) {
+        data.isSlotAvailable = isSlotAvailable;
+        const updateJsonString = JSON.stringify(data);
+        fs.writeFileSync(DATA_FILE, updateJsonString);
+        return true;
+    }
+
+    return false;
+}
+
+async function sendNotification(isSlotAvailable: boolean, sendNotif: boolean): Promise<void> {
+    if (sendNotif) {
+        const slotSubject = isSlotAvailable ? 'Slot(s) Available' : 'No more slots';
+        const slotBody = isSlotAvailable ? 'There are slot(s) available! Hurry!' : 'No more delivery slots avaialable, just go to sleep.';
+
+        const options = {
+            user: process.env.GMAIL_ACCT,
+            pass: process.env.GMAIL_PASS,
+            to:   process.env.NOTIFY_EMAIL.split(','),
+            subject: `${slotSubject} - Landers delivery slot`,
+            text: slotBody,
+        }
+
+        const send = require('gmail-send')(options);
+        
+        try {
+            await send();
+        } catch(error) {
+            console.error('ERROR', error);
+        }
+    }
+}
