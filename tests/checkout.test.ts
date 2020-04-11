@@ -11,7 +11,6 @@ export default describe('Landers', () => {
     });
     
     it('should login and check delivery slot', async () => {
-
         const loggedIn = await page.$$('#root > div.appComponent > div.headwrap > div > div.ld-header > div > div.ld-header__menu > div.ld-header__menu--item.ld-header__menu--customer > div.ld-header__menu--name');
 
         if (loggedIn.length < 1) {
@@ -49,9 +48,15 @@ export default describe('Landers', () => {
         await expect(page).toMatch('Reserve Your Delivery Slot');
         await page.waitForSelector('div.DeliveryTimeSlotItem.isToday');
         const element = await page.$$('div.DeliveryTimeSlotItem__body-slot-item.isDisabled');
-
+        
         const isSlotAvailable = element.length < 8 ? true : false;
         await sendNotification(isSlotAvailable, checkStatus(isSlotAvailable));
+        
+        // auto checkout if there's a slot
+        if (isSlotAvailable && Number(process.env.AUTO_CHECKOUT) === 1) {
+            await expect(page).toClick('div.DeliveryTimeSlotItem__body-slot-item:not(.isDisabled)');
+            await expect(page).toClick('#root > div.appComponent.ld-page--checkout-delivery-timeslots > div.bodyComponent > div > div.ld-body-middle-content > div > div.sc-jzJRlG.bWAyrP.ld-rncontent.deliverySlotsWrapper.padder.ld-delivery-timeslots.ld-animated-fade-in > div.sc-chPdSV.iAdUZY.padder.flexRow2 > div > div:nth-child(2) > button');
+        }
 
         await new Promise(r => setTimeout(r, (1000 * Number(process.env.INTERVAL_SECS))));
 
