@@ -4,7 +4,7 @@ const DATA_FILE = './data.json';
 export default describe('Landers', () => {
     beforeAll(async () => {
         await page.goto(process.env.SERVER_URL);
-        await page.setViewport({ width: 1440, height: 1080 });
+        await page.setViewport({ width: 1280, height: 1080 });
         await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36');
         page.setDefaultTimeout(5000);
         page.setCacheEnabled();
@@ -30,21 +30,21 @@ export default describe('Landers', () => {
         }
         
         // go to cart
-        await page.waitForSelector('div.ld-header__menu--item.ld-header__menu--cart');
-        await expect(page).toClick('div.ld-header__menu--item.ld-header__menu--cart');
-        await page.waitForSelector('#root > div.appComponent.ld-page--checkout-cart > div.bodyComponent > div > div.ld-body-middle-content > div > div.ld-wrapper-order-summary > div.sc-kAzzGY.cWGsSd.ld-rnfooter.fixed.padder.white.flex1.OrderSummaryFooter.ld-animated-fade-in > div.sc-VigVT.dGyBcL.ld-rnview.bgLightGrey.orderSummary.ldOrderSummary > div.sc-VigVT.dGyBcL.ld-rnview.rowFlexStart.heading > span');
+        await page.waitForSelector('div.ld-header__menu--cart-icon > span');
+        await expect(page).toClick('div.ld-header__menu--cart-icon > span');
+        await page.waitForSelector('div.orderSummary > div.heading > span');
         await expect(page).toMatch('Order Summary');
         
         // checkout
-        await page.waitForSelector('#root > div.appComponent.ld-page--checkout-cart > div.bodyComponent > div > div.ld-body-middle-content > div > div.ld-wrapper-order-summary > div.sc-kAzzGY.cWGsSd.ld-rnfooter.fixed.padder.white.flex1.OrderSummaryFooter.ld-animated-fade-in > div.sc-kgoBCf.dPQOGe.flex2 > div > div > div.sc-iRbamj.hQRSWz.checkoutBtnWrapper > button');
-        await expect(page).toClick('#root > div.appComponent.ld-page--checkout-cart > div.bodyComponent > div > div.ld-body-middle-content > div > div.ld-wrapper-order-summary > div.sc-kAzzGY.cWGsSd.ld-rnfooter.fixed.padder.white.flex1.OrderSummaryFooter.ld-animated-fade-in > div.sc-kgoBCf.dPQOGe.flex2 > div > div > div.sc-iRbamj.hQRSWz.checkoutBtnWrapper > button');
-        await page.waitForSelector('#root > div.appComponent.ld-page--checkout-delivery-address > div.bodyComponent > div > div.ld-body-middle-content > div > div.ld-wrapper-order-summary > div.sc-cSHVUG.eaOKlL.ld-rncontent.flex3.ldDeliveryAddress.ld-animated-fade-in > span');
+        await page.waitForSelector('div.checkoutBtnWrapper > button.checkoutBtn');
+        await expect(page).toClick('div.checkoutBtnWrapper > button.checkoutBtn');
+        await page.waitForSelector('div.ldDeliveryAddress > span.checkoutTitle');
         await expect(page).toMatch('Delivery Address');
         
         // check delivery slot
-        await page.waitForSelector('#root > div.appComponent.ld-page--checkout-delivery-address > div.bodyComponent > div > div.ld-body-middle-content > div > div.ld-wrapper-order-summary > div.sc-cSHVUG.eaOKlL.ld-rncontent.flex3.ldDeliveryAddress.ld-animated-fade-in > div:nth-child(3) > div > div:nth-child(2) > button > span.sc-jzJRlG.kXfEis.bold');
-        await expect(page).toClick('#root > div.appComponent.ld-page--checkout-delivery-address > div.bodyComponent > div > div.ld-body-middle-content > div > div.ld-wrapper-order-summary > div.sc-cSHVUG.eaOKlL.ld-rncontent.flex3.ldDeliveryAddress.ld-animated-fade-in > div:nth-child(3) > div > div:nth-child(2) > button > span.sc-jzJRlG.kXfEis.bold');
-        await page.waitForSelector('#root > div.appComponent.ld-page--checkout-delivery-timeslots > div.bodyComponent > div > div.ld-body-middle-content > div > div.sc-cSHVUG.eaOKlL.ld-rncontent.deliverySlotsWrapper.padder.ld-delivery-timeslots.ld-animated-fade-in > span');
+        await page.waitForSelector('div.ldDeliveryAddress button.primary:not(.block)');
+        await expect(page).toClick('div.ldDeliveryAddress button.primary:not(.block)');
+        await page.waitForSelector('div.deliverySlotsWrapper > span.checkoutTitleDelivery');
         await expect(page).toMatch('Reserve Your Delivery Slot');
         await page.waitForSelector('div.DeliveryTimeSlotItem.isToday');
         const element = await page.$$('div.DeliveryTimeSlotItem__body-slot-item.isDisabled');
@@ -55,7 +55,7 @@ export default describe('Landers', () => {
         // auto checkout if there's a slot
         if (isSlotAvailable && Number(process.env.AUTO_CHECKOUT) === 1) {
             await expect(page).toClick('div.DeliveryTimeSlotItem__body-slot-item:not(.isDisabled)');
-            await expect(page).toClick('#root > div.appComponent.ld-page--checkout-delivery-timeslots > div.bodyComponent > div > div.ld-body-middle-content > div > div.sc-cSHVUG.eaOKlL.ld-rncontent.deliverySlotsWrapper.padder.ld-delivery-timeslots.ld-animated-fade-in > div.sc-kgoBCf.dPQOGe.padder.flexRow2 > div > div:nth-child(2) > button > span.sc-jzJRlG.kXfEis');
+            await expect(page).toClick('div.deliverySlotsWrapper button.primary');
         }
 
         await new Promise(r => setTimeout(r, (1000 * Number(process.env.INTERVAL_SECS))));
