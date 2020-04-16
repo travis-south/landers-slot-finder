@@ -56,6 +56,10 @@ export default describe('Landers', () => {
         if (isSlotAvailable && Number(process.env.AUTO_CHECKOUT) === 1) {
             await expect(page).toClick('div.DeliveryTimeSlotItem__body-slot-item:not(.isDisabled)');
             await expect(page).toClick('div.deliverySlotsWrapper button.primary');
+            await expect(page).toClick('div.ldPaymentMethodList div.ldPaymentMethodItem:nth-child(3) button');
+            await expect(page).toClick('div.ldPaymentMethodList div.ldPaymentMethodItem div.ld-rnview button');
+            await page.waitForSelector('div.ld-payment-success');
+            await expect(page).toMatch('Thank You For Your Order');
         }
 
         await new Promise(r => setTimeout(r, (1000 * Number(process.env.INTERVAL_SECS))));
