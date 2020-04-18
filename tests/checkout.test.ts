@@ -47,9 +47,10 @@ export default describe('Landers', () => {
         await page.waitForSelector('div.deliverySlotsWrapper > span.checkoutTitleDelivery');
         await expect(page).toMatch('Reserve Your Delivery Slot');
         await page.waitForSelector('div.DeliveryTimeSlotItem.isToday');
-        const element = await page.$$('div.DeliveryTimeSlotItem__body-slot-item.isDisabled');
+        const elementDisabled = await page.$$('div.DeliveryTimeSlotItem__body-slot-item.isDisabled');
+        const elementTotal = await page.$$('div.DeliveryTimeSlotItem__body-slot-item');
         
-        const isSlotAvailable = element.length < 8 ? true : false;
+        const isSlotAvailable = elementDisabled.length < elementTotal.length ? true : false;
         await sendNotification(isSlotAvailable, checkStatus(isSlotAvailable));
         
         // auto checkout if there's a slot
