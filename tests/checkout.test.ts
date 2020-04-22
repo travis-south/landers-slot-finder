@@ -38,6 +38,10 @@ export default describe('Landers', () => {
         // checkout
         await page.waitForSelector('div.checkoutBtnWrapper > button.checkoutBtn');
         await expect(page).toClick('div.checkoutBtnWrapper > button.checkoutBtn');
+        const outOfStockButton = await page.$$('div.OutOfStockPrompt button.btn-success');
+        if (outOfStockButton.length > 0) {
+            await expect(page).toClick('div.OutOfStockPrompt button.btn-success');
+        }
         await page.waitForSelector('div.ldDeliveryAddress > span.checkoutTitle');
         await expect(page).toMatch('Delivery Address');
         
