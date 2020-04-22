@@ -36,6 +36,10 @@ export default describe('Landers', () => {
         await expect(page).toMatch('Order Summary');
         
         // checkout
+        const invalidItems = await page.$$('div.ld-content-invalid-cart--footer button.buttonRight');
+        if (invalidItems.length > 0) {
+            await expect(page).toClick('div.ld-content-invalid-cart--footer button.buttonRight');
+        }
         await page.waitForSelector('div.checkoutBtnWrapper > button.checkoutBtn');
         await expect(page).toClick('div.checkoutBtnWrapper > button.checkoutBtn');
         const outOfStockButton = await page.$$('div.OutOfStockPrompt button.btn-success');
